@@ -15,6 +15,7 @@ jib {
     }
     container {
         mainClass = "com.toddljones.wayfarer.Main"
+        args = listOf("--config-file=/app/config.yaml")
     }
 }
 
