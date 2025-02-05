@@ -16,4 +16,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Execute Gradle jib command
-        run: ./gradlew jib --image="$DOCKERHUB_USERNAME/$DOCKERHUB_IMAGE_NAME
+        run: |
+         ./gradlew jib \
+          --image=${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_IMAGE_NAME }} \
+         -Djib.to.auth.username=${{ vars.DOCKERHUB_USERNAME }} \
+         -Djib.to.auth.password=${{ secrets.DOCKERHUB_TOKEN }}
