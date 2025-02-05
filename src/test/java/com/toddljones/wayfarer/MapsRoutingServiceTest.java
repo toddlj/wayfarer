@@ -36,8 +36,8 @@ class MapsRoutingServiceTest {
     @Test
     void shouldReturnCorrectDurationForValidRoute() {
         // Given
-        WorldCoordinates origin = new WorldCoordinates(51.5074, -0.1278);      // London
-        WorldCoordinates destination = new WorldCoordinates(48.8566, 2.3522);  // Paris
+        Configuration.Rule.Location origin = new Configuration.Rule.Location("London", 51.5074, -0.1278);
+        Configuration.Rule.Location destination = new Configuration.Rule.Location("Paris", 48.8566, 2.3522);
 
         java.time.Duration expectedDuration = java.time.Duration.ofHours(4);
         when(routesClient.computeRoutes(any(ComputeRoutesRequest.class)))
