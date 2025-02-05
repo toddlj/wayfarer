@@ -2,6 +2,9 @@ package com.toddljones.wayfarer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 
 public record Configuration(
@@ -9,10 +12,13 @@ public record Configuration(
 ) {
 
     public record Rule(
+            int id,
             Location origin,
             Location destination,
             User user,
-            @JsonProperty("travel_time") TravelTime travelTime
+            @JsonProperty("travel_time") TravelTime travelTime,
+            List<NotificationTime> times,
+            ZoneId timezone
     ) {
 
         public record Location(
@@ -29,6 +35,12 @@ public record Configuration(
 
         public record TravelTime(
                 @JsonProperty("notification_threshold_minutes") int notificationThresholdMinutes
+        ) {
+        }
+
+        public record NotificationTime(
+                DayOfWeek day,
+                LocalTime time
         ) {
         }
 
