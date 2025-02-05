@@ -30,10 +30,13 @@ class RuleEvaluatorTest {
     void shouldSendNotificationWhenTravelTimeExceedsThreshold() {
         // Given
         Configuration.Rule rule = new Configuration.Rule(
+                1,
                 new Configuration.Rule.Location("Home", -0.1276, 51.503),
                 new Configuration.Rule.Location("Work", -0.1246, 51.498),
                 new Configuration.Rule.User("12345"),
-                new Configuration.Rule.TravelTime(30));
+                new Configuration.Rule.TravelTime(30),
+                null,
+                null);
         when(routingService.fetchCurrentTransitTimeBetween(rule.origin(), rule.destination()))
                 .thenReturn(Duration.ofMinutes(45));
 
@@ -49,10 +52,13 @@ class RuleEvaluatorTest {
     void shouldNotSendNotificationWhenTravelTimeUnderThreshold() {
         // Given
         Configuration.Rule rule = new Configuration.Rule(
+                1,
                 new Configuration.Rule.Location("Home", -0.1276, 51.503),
                 new Configuration.Rule.Location("Work", -0.1246, 51.498),
                 new Configuration.Rule.User("12345"),
-                new Configuration.Rule.TravelTime(30));
+                new Configuration.Rule.TravelTime(30),
+                null,
+                null);
         when(routingService.fetchCurrentTransitTimeBetween(rule.origin(), rule.destination()))
                 .thenReturn(Duration.ofMinutes(30));
 
@@ -67,10 +73,13 @@ class RuleEvaluatorTest {
     void shouldNotSendNotificationWhenTravelTimeEqualsThreshold() {
         // Given
         Configuration.Rule rule = new Configuration.Rule(
+                1,
                 new Configuration.Rule.Location("Home", -0.1276, 51.503),
                 new Configuration.Rule.Location("Work", -0.1246, 51.498),
                 new Configuration.Rule.User("12345"),
-                new Configuration.Rule.TravelTime(30));
+                new Configuration.Rule.TravelTime(30),
+                null,
+                null);
         when(routingService.fetchCurrentTransitTimeBetween(rule.origin(), rule.destination()))
                 .thenReturn(Duration.ofMinutes(30));
 

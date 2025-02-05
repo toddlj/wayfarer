@@ -3,6 +3,7 @@ package com.toddljones.wayfarer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class ConfigurationParser {
 
         try {
             ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+            objectMapper.registerModule(new JavaTimeModule());
             return objectMapper.readValue(configFileContents, Configuration.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
