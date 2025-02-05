@@ -5,8 +5,8 @@
 1. Create a Telegram bot and get the bot token.
 2. Create a Google API key and enable the Directions API.
 3. For the Telegram accounts you want to notify:
-   a. Get the user ID. Perhaps with @userinfobot.
-   b. Start a conversation with the bot. This is necessary so the bot can send messages to the user. 
+    1. Get the user ID. Perhaps with @userinfobot.
+    2. Start a conversation with the bot. This is necessary so the bot can send messages to the user. 
 4. Create your config file
     ```shell
     touch config.yaml
