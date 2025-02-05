@@ -22,6 +22,9 @@ jib {
 dependencies {
     implementation("com.google.maps:google-maps-routing:1.37.0")
     implementation("jakarta.inject:jakarta.inject-api:2.0.1")
+    implementation("org.slf4j:slf4j-api:2.0.7")
+    implementation("org.slf4j:slf4j-simple:2.0.7")
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.0")
     testImplementation("org.mockito:mockito-core:5.15.2")
     testImplementation("org.mockito:mockito-junit-jupiter:5.3.1")
     testImplementation("org.assertj:assertj-core:3.24.2")

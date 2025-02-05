@@ -46,7 +46,7 @@ public final class MapsRoutingService {
         this.routesClientProvider = routesClientProvider;
     }
 
-    public Duration fetchCurrentTransitTimeBetween(WorldCoordinates origin, WorldCoordinates destination) {
+    public Duration fetchCurrentTransitTimeBetween(Configuration.Rule.Location origin, Configuration.Rule.Location destination) {
         try (RoutesClient routesClient = routesClientProvider.get()) {
             ComputeRoutesRequest request = ComputeRoutesRequest.newBuilder()
                     .setOrigin(Waypoint.newBuilder().setLocation(
