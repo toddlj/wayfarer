@@ -44,3 +44,4 @@ bin/
 
 ### Local config ###
 .local.env
+config.yaml
