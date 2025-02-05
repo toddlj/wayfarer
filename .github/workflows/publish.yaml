@@ -1,9 +1,7 @@
-name: Test
+name: Build and publish
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
 
 jobs:
@@ -17,5 +15,5 @@ jobs:
           java-version: 23
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-      - name: Execute Gradle build
-        run: ./gradlew build
+      - name: Execute Gradle jib command
+        run: ./gradlew jib --image="$DOCKERHUB_USERNAME/$DOCKERHUB_IMAGE_NAME
