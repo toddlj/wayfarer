@@ -30,13 +30,13 @@
           - day: MONDAY
             time: 09:00
           - day: TUESDAY
-          time: 09:00
+            time: 09:00
           - day: WEDNESDAY
-          time: 09:00
+            time: 09:00
           - day: THURSDAY
-          time: 09:00
+            time: 09:00
           - day: FRIDAY
-          time: 09:00
+            time: 09:00
         timezone: Europe/London
          ```
 5. Create an environments file
