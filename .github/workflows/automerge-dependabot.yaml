@@ -8,6 +8,7 @@ permissions:
 jobs:
   automerge:
     runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
     steps:
       - uses: peter-evans/enable-pull-request-automerge@v3
         with:
