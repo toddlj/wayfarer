@@ -21,7 +21,7 @@ jib {
 
 
 dependencies {
-    implementation("com.google.maps:google-maps-routing:1.37.0")
+    implementation("com.google.maps:google-maps-routing:1.42.0")
     implementation("jakarta.inject:jakarta.inject-api:2.0.1")
     implementation("commons-cli:commons-cli:1.4")
     implementation("org.slf4j:slf4j-api:2.0.7")
