@@ -33,7 +33,7 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.24.2")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.awaitility:awaitility:4.1.1")
+    testImplementation("org.awaitility:awaitility:4.2.2")
 }
 
 tasks.test {
