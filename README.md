@@ -25,7 +25,7 @@
         user:
           telegram_user_id: your_telegram_user_id
         travel_time:
-          notification_threshold_minutes: 10
+          notification_threshold_minutes: 8
         times:
           - day: MONDAY
             time: 09:00

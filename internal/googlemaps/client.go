@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"github.com/googleapis/gax-go/v2/callctx"
 	"google.golang.org/genproto/googleapis/type/latlng"
-	"os"
 	"time"
 
 	"google.golang.org/api/option"
@@ -18,13 +17,8 @@ type MapsRoutingService struct {
 	client *routing.RoutesClient
 }
 
-func NewMapsRoutingService() (*MapsRoutingService, error) {
-	apiKey := os.Getenv("GOOGLE_API_KEY")
-	if apiKey == "" {
-		return nil, errors.New("GOOGLE_API_KEY environment variable must be set")
-	}
-
-	client, err := routing.NewRoutesClient(context.Background(), option.WithAPIKey(apiKey))
+func NewMapsRoutingService(googleApiKey string) (*MapsRoutingService, error) {
+	client, err := routing.NewRoutesClient(context.Background(), option.WithAPIKey(googleApiKey))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create Routes client: %w", err)
 	}
