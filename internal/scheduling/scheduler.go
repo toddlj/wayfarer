@@ -19,7 +19,7 @@ func ScheduleFunction(schedules []Schedule, timezone *time.Location, task func()
 		go func() {
 			var scheduleNext func(allowToday bool)
 			scheduleNext = func(allowToday bool) {
-				nextRun := getNextScheduledTime(schedule, timezone, allowToday)
+				nextRun := getNextScheduledTime(time.Now(), schedule, timezone, allowToday)
 				slog.Info("Scheduled task", slog.Any("next_run", nextRun))
 
 				time.AfterFunc(time.Until(nextRun), func() {
@@ -35,17 +35,17 @@ func ScheduleFunction(schedules []Schedule, timezone *time.Location, task func()
 	return nil
 }
 
-func getNextScheduledTime(schedule Schedule, timezone *time.Location, allowToday bool) time.Time {
-	now := time.Now().In(timezone)
+func getNextScheduledTime(now time.Time, schedule Schedule, timezone *time.Location, allowToday bool) time.Time {
+	nowInTimezone := now.In(timezone)
 
 	for days := 0; days < 8; days++ {
 		if !allowToday && days <= 1 {
 			// Start at 2 to avoid running the task today (or tomorrow for race conditions where it runs just before midnight)
 			continue
 		}
-		nextRun := time.Date(now.Year(), now.Month(), now.Day()+days,
+		nextRun := time.Date(nowInTimezone.Year(), nowInTimezone.Month(), nowInTimezone.Day()+days,
 			schedule.Hour, schedule.Minute, 0, 0, timezone)
-		if nextRun.Weekday() == schedule.DayOfWeek {
+		if nextRun.Weekday() == schedule.DayOfWeek && nextRun.After(nowInTimezone) {
 			return nextRun
 		}
 	}
