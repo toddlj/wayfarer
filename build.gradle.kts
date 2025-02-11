@@ -30,7 +30,7 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.2")
     testImplementation("org.mockito:mockito-core:5.15.2")
     testImplementation("org.mockito:mockito-junit-jupiter:5.3.1")
-    testImplementation("org.assertj:assertj-core:3.24.2")
+    testImplementation("org.assertj:assertj-core:3.27.3")
     testImplementation(platform("org.junit:junit-bom:5.11.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.awaitility:awaitility:4.2.2")
