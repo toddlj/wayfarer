@@ -37,7 +37,7 @@ func (s *MapsRoutingService) FetchCurrentTransitTimeBetween(origin, destination 
 		TravelMode:  routingpb.RouteTravelMode_TRANSIT,
 	}
 
-	ctx := callctx.SetHeaders(context.Background(), "x-goog-fieldmask", "routes.duration")
+	ctx := callctx.SetHeaders(context.Background(), callctx.XGoogFieldMaskHeader, "routes.duration")
 	resp, err := s.client.ComputeRoutes(ctx, req)
 	if err != nil {
 		return 0, fmt.Errorf("API request to compute routes failed: %w", err)
