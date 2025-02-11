@@ -39,7 +39,12 @@ func (c *Client) SendMessage(chatID int64, message string) error {
 		return err
 	}
 
-	resp, err := http.Post(url, "application/json", bytes.NewBuffer(payload))
+	client := http.Client{
+		Transport: &http.Transport{
+			DisableKeepAlives: true, // We send messages infrequently, so disable keep-alives
+		},
+	}
+	resp, err := client.Post(url, "application/json", bytes.NewBuffer(payload))
 	if err != nil {
 		return err
 	}
