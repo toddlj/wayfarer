@@ -7,15 +7,39 @@ on:
     branches: [ main ]
 
 jobs:
-  gradle_test:
+  test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
         with:
-          distribution: temurin
-          java-version: 23
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-      - name: Execute Gradle build
-        run: ./gradlew build
+          go-version: '1.23.6'
+
+      - name: Cache Go modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/go-build
+          key: ${{ runner.os }}-go-mod-${{ hashFiles('**/go.mod') }}
+          restore-keys: |
+            ${{ runner.os }}-go-mod-
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Ensure go.mod and go.sum are up to date
+        run: |
+          git diff --exit-code go.mod go.sum || (echo "go.mod or go.sum has changed, please review your dependencies" && exit 1)
+
+      - name: Check gofmt formatting
+        run: |
+          if ! gofmt -d . | tee /dev/stderr | [ -z "$(cat)" ]; then
+            echo "Go code is not properly formatted."
+            exit 1
+          fi
+
+      - name: Run tests
+        run: go test ./... -v

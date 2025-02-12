@@ -46,3 +46,6 @@ bin/
 .local.env
 config.yaml
 .env
+
+### Go ###
+wayfarer
