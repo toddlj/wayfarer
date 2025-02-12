@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  go_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,14 +18,6 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: '1.23.6'
-
-      - name: Cache Go modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/go-build
-          key: ${{ runner.os }}-go-mod-${{ hashFiles('**/go.mod') }}
-          restore-keys: |
-            ${{ runner.os }}-go-mod-
 
       - name: Install dependencies
         run: go mod tidy
