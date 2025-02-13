@@ -33,13 +33,14 @@ jobs:
 
       - name: Build Go binary
         run: |
-          GOARCH=amd64 GOOS=linux go build -o wayfarer ./cmd/wayfarer/main.go
+          GOARCH=amd64 GOOS=linux go build -o ./bin/wayfarer-amd64 ./cmd/wayfarer/main.go
+          GOARCH=arm64 GOOS=linux go build -o ./bin/wayfarer-arm64 ./cmd/wayfarer/main.go
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: wayfarer-binary
-          path: wayfarer
+          path: bin/wayfarer-*
           if-no-files-found: 'error'
 
       - name: Generate release tag
@@ -72,7 +73,7 @@ jobs:
         with:
           tag_name: ${{ env.NEW_TAG }}
           fail_on_unmatched_files: true
-          files: wayfarer
+          files: bin/wayfarer-*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
