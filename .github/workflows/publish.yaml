@@ -37,14 +37,38 @@ jobs:
         with:
           name: wayfarer-binary
           path: wayfarer
+          if-no-files-found: 'error'
+
+      - name: Generate release tag
+        run: |
+          LATEST_TAG=$(curl -s "https://api.github.com/repos/${{ github.repository }}/releases/latest" | jq -r '.tag_name')
+
+          if [[ "$LATEST_TAG" == "null" || -z "$LATEST_TAG" ]]; then
+            NEW_TAG="v0.1"
+          else
+            NEW_VERSION=$(( ${LATEST_TAG#v0.} + 1 ))
+            NEW_TAG="v0.$NEW_VERSION"
+          fi
+
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
+
+      - name: Push new tag (atomic check)
+        run: |
+          git fetch --tags
+          if git tag -l | grep -q "^${NEW_TAG}$"; then
+            echo "Tag $NEW_TAG already exists. Skipping..."
+            exit 0
+          fi
+          
+          git tag $NEW_TAG
+          git push origin $NEW_TAG
 
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.NEW_TAG }}
+          fail_on_unmatched_files: true
+          files: wayfarer
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload release binary
-        uses: softprops/action-gh-release@v1
-        with:
-          files: wayfarer
