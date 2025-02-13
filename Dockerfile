@@ -1,6 +1,12 @@
 FROM gcr.io/distroless/static:latest
 
-# Copy the prebuilt Go binary
-COPY wayfarer /
+WORKDIR /app
 
-CMD ["/wayfarer"]
+ARG TARGETARCH
+
+# Copy the prebuilt Go binary
+COPY bin/wayfarer-${TARGETARCH} /app/wayfarer
+
+RUN chmod +x /app/wayfarer
+
+CMD ["/app/wayfarer"]
