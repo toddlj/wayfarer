@@ -25,7 +25,8 @@ Useful for commuters who can work from home occasionally to avoid a long commute
    and add your rules to the config file
     ```yaml
     rules:
-      - origin:
+      - id: 1
+        origin:
           name: 10 Downing Street
           longitude: -0.1276
           latitude: 51.503
