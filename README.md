@@ -1,12 +1,23 @@
 # Wayfarer
 
+![Go Version](https://img.shields.io/github/go-mod/go-version/toddlj/wayfarer)
+![Test Status](https://github.com/toddlj/wayfarer/actions/workflows/test.yaml/badge.svg)
+![Build and Publish Status](https://github.com/toddlj/wayfarer/actions/workflows/publish.yaml/badge.svg)
+![GitHub release](https://img.shields.io/github/v/release/toddlj/wayfarer?label=Release)
+![Docker Image Version](https://img.shields.io/docker/v/toddljones1/wayfarer?sort=semver&label=Docker&logo=docker)
+
+A standalone application which notifies users via Telegram when they're scheduled journey time exceeds a threshold.
+Useful for commuters who can work from home occasionally to avoid a long commute.
+
+![Screenshot](./.docs/telegram-screenshot.png)
+
 ## Usage
 
 1. Create a Telegram bot and get the bot token.
 2. Create a Google API key and enable the Directions API.
 3. For the Telegram accounts you want to notify:
-    1. Get the user ID. Perhaps with @userinfobot.
-    2. Start a conversation with the bot. This is necessary so the bot can send messages to the user. 
+    1. Get the user ID. Perhaps with [@userinfobot](https://telegram.me/userinfobot).
+    2. Start a conversation with your bot. This is necessary so the bot can send messages to the user. 
 4. Create your config file
     ```shell
     touch config.yaml
