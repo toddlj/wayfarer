@@ -6,7 +6,7 @@
 ![GitHub release](https://img.shields.io/github/v/release/toddlj/wayfarer?label=Release)
 ![Docker Image Version](https://img.shields.io/docker/v/toddljones1/wayfarer?sort=semver&label=Docker&logo=docker)
 
-A standalone application which notifies users via Telegram when they're scheduled journey time exceeds a threshold.
+A standalone application which notifies users via Telegram when their scheduled journey time exceeds a threshold.
 Useful for commuters who can work from home occasionally to avoid a long commute.
 
 ![Screenshot](./.docs/telegram-screenshot.png)
