@@ -4,11 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log/slog"
 	"net/http"
 )
-
-const sendMessageUrl = "https://api.telegram.org/bot%s/sendMessage"
 
 type Message struct {
 	ChatID int64  `json:"chat_id"`
@@ -16,19 +15,21 @@ type Message struct {
 }
 
 type Client struct {
-	BotToken string
-	Logger   *slog.Logger
+	ApiBaseUrl string
+	BotToken   string
+	Logger     *slog.Logger
 }
 
-func NewClient(botToken string) *Client {
+func NewClient(apiBaseUrl string, botToken string) *Client {
 	return &Client{
-		BotToken: botToken,
-		Logger:   slog.Default(),
+		ApiBaseUrl: apiBaseUrl,
+		BotToken:   botToken,
+		Logger:     slog.Default(),
 	}
 }
 
 func (c *Client) SendMessage(chatID int64, message string) error {
-	url := fmt.Sprintf(sendMessageUrl, c.BotToken)
+	url := fmt.Sprintf("%s/bot%s/sendMessage", c.ApiBaseUrl, c.BotToken)
 
 	msg := Message{
 		ChatID: chatID,
@@ -48,7 +49,12 @@ func (c *Client) SendMessage(chatID int64, message string) error {
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			c.Logger.Error("Failed to close response body", slog.Any("error", err))
+		}
+	}(resp.Body)
 
 	if resp.StatusCode != http.StatusOK {
 		c.Logger.Error("Failed to send message", slog.Int("status_code", resp.StatusCode))

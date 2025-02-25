@@ -8,6 +8,9 @@ import (
 	"fmt"
 	"github.com/googleapis/gax-go/v2/callctx"
 	"google.golang.org/genproto/googleapis/type/latlng"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"log/slog"
 	"time"
 
 	"google.golang.org/api/option"
@@ -17,7 +20,20 @@ type MapsRoutingService struct {
 	client *routing.RoutesClient
 }
 
-func NewMapsRoutingService(googleApiKey string) (*MapsRoutingService, error) {
+func NewMapsRoutingService(googleApiBaseUrl string, googleApiKey string) (*MapsRoutingService, error) {
+	if googleApiBaseUrl != "" {
+		slog.Warn("Using insecure connection to custom Google Maps API", slog.String("url", googleApiBaseUrl))
+		client, err := routing.NewRoutesClient(context.Background(),
+			option.WithEndpoint(googleApiBaseUrl),
+			option.WithoutAuthentication(),
+			option.WithGRPCDialOption(grpc.WithTransportCredentials(insecure.NewCredentials())))
+		if err != nil {
+			return nil, fmt.Errorf("failed to create Routes client: %w", err)
+		}
+
+		return &MapsRoutingService{client: client}, nil
+	}
+
 	client, err := routing.NewRoutesClient(context.Background(), option.WithAPIKey(googleApiKey))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create Routes client: %w", err)

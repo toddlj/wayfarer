@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"google.golang.org/genproto/googleapis/type/latlng"
 	"log/slog"
@@ -13,20 +14,29 @@ import (
 )
 
 func main() {
+	// Load command-line arguments
+	configFilePath := flag.String("config-file", "config.yaml", "Path of config file")
+	flag.Parse()
+
 	// Load environment variables
 	telegramBotToken := os.Getenv("TELEGRAM_BOT_TOKEN")
 	if telegramBotToken == "" {
 		slog.Error("TELEGRAM_BOT_TOKEN environment variable must be set")
 		os.Exit(1)
 	}
+	telegramApiBaseUrl := os.Getenv("TELEGRAM_API_BASE_URL")
+	if telegramApiBaseUrl == "" {
+		telegramApiBaseUrl = "https://api.telegram.org"
+	}
 	googleApiKey := os.Getenv("GOOGLE_API_KEY")
 	if googleApiKey == "" {
 		slog.Error("GOOGLE_API_KEY environment variable must be set")
 		os.Exit(1)
 	}
+	googleApiBaseUrl := os.Getenv("GOOGLE_API_BASE_URL")
 
 	// Load configuration
-	cfg, err := config.LoadConfig("config.yaml")
+	cfg, err := config.LoadConfig(*configFilePath)
 	if err != nil {
 		slog.Error("Failed to load config", slog.Any("error", err))
 		os.Exit(1)
@@ -38,8 +48,8 @@ func main() {
 	}
 
 	// Initialize clients
-	telegramClient := telegram.NewClient(telegramBotToken)
-	mapsRoutingService, err := googlemaps.NewMapsRoutingService(googleApiKey)
+	telegramClient := telegram.NewClient(telegramApiBaseUrl, telegramBotToken)
+	mapsRoutingService, err := googlemaps.NewMapsRoutingService(googleApiBaseUrl, googleApiKey)
 	if err != nil {
 		slog.Error("Failed to initialize Google Maps client", slog.Any("error", err))
 		os.Exit(1)
