@@ -159,13 +159,12 @@ func generateConfig(telegramUserId int64, routeDurationThresholdMinutes int) str
 }
 
 func saveConfig(t *testing.T, config string) {
-	if !os.IsExist(os.Mkdir("test_data", 0755)) {
-		err := os.Mkdir("test_data", 0755)
-		if err != nil {
-			t.Fatalf("Error creating directory: %s", err)
-		}
+	err := os.Mkdir("test_data", 0755)
+	if err != nil && !os.IsExist(err) {
+		t.Fatalf("Error creating directory: %s", err)
+
 	}
-	err := os.WriteFile("test_data/test_config.yaml", []byte(config), 0644)
+	err = os.WriteFile("test_data/test_config.yaml", []byte(config), 0644)
 	if err != nil {
 		t.Fatalf("Error writing file: %s", err)
 	}
