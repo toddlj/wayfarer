@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-const sendMessageUrl = "https://api.telegram.org/bot%s/sendMessage"
+const sendMessageUrl = "%s/bot%s/sendMessage"
 
 type Message struct {
 	ChatID int64  `json:"chat_id"`
@@ -16,19 +16,21 @@ type Message struct {
 }
 
 type Client struct {
-	BotToken string
-	Logger   *slog.Logger
+	ApiBaseUrl string
+	BotToken   string
+	Logger     *slog.Logger
 }
 
-func NewClient(botToken string) *Client {
+func NewClient(apiBaseUrl string, botToken string) *Client {
 	return &Client{
-		BotToken: botToken,
-		Logger:   slog.Default(),
+		ApiBaseUrl: apiBaseUrl,
+		BotToken:   botToken,
+		Logger:     slog.Default(),
 	}
 }
 
 func (c *Client) SendMessage(chatID int64, message string) error {
-	url := fmt.Sprintf(sendMessageUrl, c.BotToken)
+	url := fmt.Sprintf(sendMessageUrl, c.ApiBaseUrl, c.BotToken)
 
 	msg := Message{
 		ChatID: chatID,
