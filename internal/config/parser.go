@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"os"
 	"time"
 
@@ -47,3 +48,5 @@ func ParseWeekday(day string) (time.Weekday, error) {
 
 	return weekday, nil
 }
+
+var errInvalidDay = errors.New("invalid day of the week")

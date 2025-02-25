@@ -5,10 +5,6 @@ import (
 	"time"
 )
 
-var errInvalidDay = errors.New("invalid day of the week")
-
-var errInvalidTimeFormat = errors.New("invalid time format")
-
 func (cfg *Config) validate() error {
 	for _, rule := range cfg.Rules {
 		// Check ID
@@ -58,3 +54,5 @@ func (cfg *Config) validate() error {
 	// All checks passed
 	return nil
 }
+
+var errInvalidTimeFormat = errors.New("invalid time format")
