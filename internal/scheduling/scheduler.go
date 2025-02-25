@@ -12,6 +12,9 @@ type Schedule struct {
 	Minute    int          // e.g., 30
 }
 
+// Can be overridden in tests
+var getNextScheduledTimeFunction = getNextScheduledTime
+
 func ScheduleFunction(schedules []Schedule, timezone *time.Location, task func()) error {
 	// Schedule each task in a separate Goroutine
 	for _, schedule := range schedules {
@@ -19,7 +22,7 @@ func ScheduleFunction(schedules []Schedule, timezone *time.Location, task func()
 		go func() {
 			var scheduleNext func(allowToday bool)
 			scheduleNext = func(allowToday bool) {
-				nextRun := getNextScheduledTime(time.Now(), schedule, timezone, allowToday)
+				nextRun := getNextScheduledTimeFunction(time.Now(), schedule, timezone, allowToday)
 				slog.Info("Scheduled task", slog.Any("next_run", nextRun))
 
 				time.AfterFunc(time.Until(nextRun), func() {

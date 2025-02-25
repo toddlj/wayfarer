@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/googleapis/gax-go/v2"
 	"github.com/googleapis/gax-go/v2/callctx"
 	"google.golang.org/genproto/googleapis/type/latlng"
 	"google.golang.org/grpc"
@@ -16,8 +17,13 @@ import (
 	"google.golang.org/api/option"
 )
 
+type RoutesClient interface {
+	ComputeRoutes(ctx context.Context, req *routingpb.ComputeRoutesRequest, opts ...gax.CallOption) (*routingpb.ComputeRoutesResponse, error)
+	Close() error
+}
+
 type MapsRoutingService struct {
-	client *routing.RoutesClient
+	client RoutesClient
 }
 
 func NewMapsRoutingService(googleApiBaseUrl string, googleApiKey string) (*MapsRoutingService, error) {

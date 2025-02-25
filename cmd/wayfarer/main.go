@@ -41,11 +41,6 @@ func main() {
 		slog.Error("Failed to load config", slog.Any("error", err))
 		os.Exit(1)
 	}
-	err = cfg.Validate()
-	if err != nil {
-		slog.Error("Invalid config", slog.Any("error", err))
-		os.Exit(1)
-	}
 
 	// Initialize clients
 	telegramClient := telegram.NewClient(telegramApiBaseUrl, telegramBotToken)
@@ -70,7 +65,7 @@ func main() {
 
 func scheduleRuleEvaluations(telegramClient *telegram.Client, mapsRoutingService *googlemaps.MapsRoutingService, rule config.Rule) error {
 	// Convert config as needed
-	// Already validated in config.Validate()
+	// Already validated in config.validate()
 	schedules := make([]scheduling.Schedule, 0, len(rule.Times))
 	for _, t := range rule.Times {
 		weekday, _ := config.ParseWeekday(t.Day)
