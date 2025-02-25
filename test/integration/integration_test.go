@@ -92,7 +92,7 @@ Poll:
 	if telegramRequests[0] != expectedMessage {
 		t.Errorf("Unexpected request body: got %+v, expected %+v", telegramRequests[0], expectedMessage)
 	} else {
-		t.Errorf("Request body verified: %+v", telegramRequests[0])
+		t.Logf("Request body verified: %+v", telegramRequests[0])
 	}
 }
 
