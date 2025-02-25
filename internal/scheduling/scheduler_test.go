@@ -69,3 +69,52 @@ func Test_GetNextScheduledTime(t *testing.T) {
 		})
 	}
 }
+
+func TestScheduleFunction_TaskExecutionAndRescheduling(t *testing.T) {
+	// Save original function so we can restore it later.
+	origNextFunc := getNextScheduledTimeFunction
+	// Override getNextScheduledTimeFunc to always schedule the task 10ms in the future.
+	getNextScheduledTimeFunction = func(now time.Time, schedule Schedule, timezone *time.Location, allowToday bool) time.Time {
+		return time.Now().Add(10 * time.Millisecond)
+	}
+	defer func() { getNextScheduledTimeFunction = origNextFunc }()
+
+	// Use a channel to signal task execution.
+	executionCount := 0
+	execCh := make(chan struct{}, 10)
+	task := func() {
+		executionCount++
+		execCh <- struct{}{}
+	}
+
+	// Create a dummy schedule. Its values don’t matter because our override forces a 10ms delay.
+	now := time.Now()
+	schedules := []Schedule{
+		{DayOfWeek: now.Weekday(), Hour: now.Hour(), Minute: now.Minute()},
+	}
+	loc := time.UTC
+
+	// Start scheduling the task.
+	if err := ScheduleFunction(schedules, loc, task); err != nil {
+		t.Fatalf("ScheduleFunction returned error: %v", err)
+	}
+
+	// Allow some time for several task executions.
+	timeout := time.After(100 * time.Millisecond)
+Loop:
+	for {
+		select {
+		case <-execCh:
+			if executionCount >= 2 {
+				break Loop
+			}
+		case <-timeout:
+			break Loop
+		}
+	}
+
+	// We expect the task to have been executed multiple times.
+	if executionCount < 2 {
+		t.Errorf("expected task to execute at least twice, but got %d", executionCount)
+	}
+}
