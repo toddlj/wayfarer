@@ -52,7 +52,7 @@ func (c *Client) SendMessage(chatID int64, message string) error {
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-			c.Logger.Error("Failed to close response body", slog.AnyValue(err))
+			c.Logger.Error("Failed to close response body", slog.Any("error", err))
 		}
 	}(resp.Body)
 
