@@ -32,7 +32,8 @@ func Test_IntegrationTest(t *testing.T) {
 
 	// Create config file
 	config := generateConfig(telegramUserId, routeDurationThresholdMinutes)
-	saveConfig(t, config)
+	filename := saveConfigFile(t, config)
+	defer removeConfigFile(t, filename)
 
 	// Start mock Telegram API Server
 	var telegramRequests []TelegramMessage
@@ -158,15 +159,24 @@ func generateConfig(telegramUserId int64, routeDurationThresholdMinutes int) str
 	return config
 }
 
-func saveConfig(t *testing.T, config string) {
+func saveConfigFile(t *testing.T, config string) string {
 	err := os.Mkdir("test_data", 0755)
 	if err != nil && !os.IsExist(err) {
 		t.Fatalf("Error creating directory: %s", err)
 
 	}
-	err = os.WriteFile("test_data/test_config.yaml", []byte(config), 0644)
+	filename := "test_data/test_config.yaml"
+	err = os.WriteFile(filename, []byte(config), 0644)
 	if err != nil {
 		t.Fatalf("Error writing file: %s", err)
+	}
+	return filename
+}
+
+func removeConfigFile(t *testing.T, filename string) {
+	err := os.Remove(filename)
+	if err != nil {
+		t.Fatalf("Error removing file: %s", err)
 	}
 }
 
