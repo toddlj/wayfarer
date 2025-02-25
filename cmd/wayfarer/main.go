@@ -33,6 +33,7 @@ func main() {
 		slog.Error("GOOGLE_API_KEY environment variable must be set")
 		os.Exit(1)
 	}
+	googleApiBaseUrl := os.Getenv("GOOGLE_API_BASE_URL")
 
 	// Load configuration
 	cfg, err := config.LoadConfig(*configFilePath)
@@ -48,7 +49,7 @@ func main() {
 
 	// Initialize clients
 	telegramClient := telegram.NewClient(telegramApiBaseUrl, telegramBotToken)
-	mapsRoutingService, err := googlemaps.NewMapsRoutingService(googleApiKey)
+	mapsRoutingService, err := googlemaps.NewMapsRoutingService(googleApiBaseUrl, googleApiKey)
 	if err != nil {
 		slog.Error("Failed to initialize Google Maps client", slog.Any("error", err))
 		os.Exit(1)

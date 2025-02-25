@@ -9,8 +9,6 @@ import (
 	"net/http"
 )
 
-const sendMessageUrl = "%s/bot%s/sendMessage"
-
 type Message struct {
 	ChatID int64  `json:"chat_id"`
 	Text   string `json:"text"`
@@ -31,7 +29,7 @@ func NewClient(apiBaseUrl string, botToken string) *Client {
 }
 
 func (c *Client) SendMessage(chatID int64, message string) error {
-	url := fmt.Sprintf(sendMessageUrl, c.ApiBaseUrl, c.BotToken)
+	url := fmt.Sprintf("%s/bot%s/sendMessage", c.ApiBaseUrl, c.BotToken)
 
 	msg := Message{
 		ChatID: chatID,
