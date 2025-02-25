@@ -57,8 +57,7 @@ func (c *Client) SendMessage(chatID int64, message string) error {
 	}(resp.Body)
 
 	if resp.StatusCode != http.StatusOK {
-		c.Logger.Error("Failed to send message", slog.Int("status_code", resp.StatusCode))
-		return nil
+		return fmt.Errorf("bad status code received: %d", resp.StatusCode)
 	}
 
 	c.Logger.Info("Message sent successfully", slog.Int64("chat_id", chatID))
