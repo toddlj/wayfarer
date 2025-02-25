@@ -30,7 +30,7 @@ func Test_IntegrationTest(t *testing.T) {
 	telegramToken := "TOKENTOKENTOKEN"
 	googleApiKey := "FAKEKEYFAKEKEYFAKEKEY"
 
-	// Generate config
+	// Create config file
 	config := generateConfig(telegramUserId, routeDurationThresholdMinutes)
 	saveConfig(t, config)
 
@@ -57,11 +57,10 @@ func Test_IntegrationTest(t *testing.T) {
 		errChan <- cmd.Run() // Runs and waits for completion
 	}()
 
+	// Wait for Telegram message to be sent
 	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 	timeout := time.After(70 * time.Second)
-
-	// Wait for Telegram message to be sent
 Poll:
 	for pollCounter := 1; ; pollCounter++ {
 		select {
