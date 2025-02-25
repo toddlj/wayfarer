@@ -182,7 +182,7 @@ func removeConfigFile(t *testing.T, filename string) {
 
 func handleTelegramCall(t *testing.T, telegramToken string, telegramRequests *[]TelegramMessage) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// Validate URL
+		// validate URL
 		expectedURL := fmt.Sprintf("/bot%s/sendMessage", telegramToken)
 		if r.URL.Path != expectedURL {
 			t.Errorf("Unexpected URL: got %s, expected %s", r.URL.Path, expectedURL)
