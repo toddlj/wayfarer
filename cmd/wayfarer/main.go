@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"google.golang.org/genproto/googleapis/type/latlng"
 	"log/slog"
@@ -13,6 +14,10 @@ import (
 )
 
 func main() {
+	// Load command-line arguments
+	configFilePath := flag.String("config-file", "config.yaml", "Path of config file")
+	flag.Parse()
+
 	// Load environment variables
 	telegramBotToken := os.Getenv("TELEGRAM_BOT_TOKEN")
 	if telegramBotToken == "" {
@@ -30,7 +35,7 @@ func main() {
 	}
 
 	// Load configuration
-	cfg, err := config.LoadConfig("config.yaml")
+	cfg, err := config.LoadConfig(*configFilePath)
 	if err != nil {
 		slog.Error("Failed to load config", slog.Any("error", err))
 		os.Exit(1)
