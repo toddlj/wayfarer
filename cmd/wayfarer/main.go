@@ -14,6 +14,11 @@ import (
 )
 
 func main() {
+	// Configure logger
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{}))
+	logger = logger.With("app", "wayfarer")
+	slog.SetDefault(logger)
+
 	// Load command-line arguments
 	configFilePath := flag.String("config-file", "config.yaml", "Path of config file")
 	flag.Parse()
