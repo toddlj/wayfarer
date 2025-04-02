@@ -1,13 +1,14 @@
 module wayfarer
 
 go 1.23.6
+toolchain go1.24.1
 
 require (
 	cloud.google.com/go/maps v1.20.1
 	github.com/googleapis/gax-go/v2 v2.14.1
 	google.golang.org/api v0.228.0
 	google.golang.org/genproto v0.0.0-20250303144028-a0af3efb3deb
-	google.golang.org/grpc v1.71.0
+	google.golang.org/grpc v1.71.1
 	google.golang.org/protobuf v1.36.6
 	gopkg.in/yaml.v3 v3.0.1
 )
