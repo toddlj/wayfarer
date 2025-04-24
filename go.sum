@@ -4,8 +4,8 @@ cloud.google.com/go/auth/oauth2adapt v0.2.8 h1:keo8NaayQZ6wimpNSmW5OPc283g65QNIi
 cloud.google.com/go/auth/oauth2adapt v0.2.8/go.mod h1:XQ9y31RkqZCcwJWNSx2Xvric3RrU88hAYYbjDWYDL+c=
 cloud.google.com/go/compute/metadata v0.6.0 h1:A6hENjEsCDtC1k8byVsgwvVcioamEHvZ4j01OwKxG9I=
 cloud.google.com/go/compute/metadata v0.6.0/go.mod h1:FjyFAW1MW0C203CEOMDTu3Dk1FlqW3Rga40jzHL4hfg=
-cloud.google.com/go/maps v1.20.2 h1:r0SSwK+7SBdC94w8mp+pCWsdB9UMJz9t1HsCyhoElic=
-cloud.google.com/go/maps v1.20.2/go.mod h1:SqUtIvCPe6cDVXta4oXakeFvf+rd80RWv5EC7VBKP2M=
+cloud.google.com/go/maps v1.20.3 h1:HOk4ft//5dDxt5h4MLtLrsmjzYY4x8Oj9ile/AL0G0Y=
+cloud.google.com/go/maps v1.20.3/go.mod h1:SqUtIvCPe6cDVXta4oXakeFvf+rd80RWv5EC7VBKP2M=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/felixge/httpsnoop v1.0.4 h1:NFTV2Zj1bL4mc9sqWACXbQFVBBg2W3GPvqp8/ESS2Wg=
