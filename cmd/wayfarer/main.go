@@ -86,7 +86,7 @@ func scheduleRuleEvaluations(telegramClient *telegram.Client, mapsRoutingService
 	origin := &latlng.LatLng{Latitude: rule.Origin.Latitude, Longitude: rule.Origin.Longitude}
 	destination := &latlng.LatLng{Latitude: rule.Destination.Latitude, Longitude: rule.Destination.Longitude}
 
-	return scheduling.ScheduleFunction(schedules, timezone, func() {
+	return scheduling.ScheduleFunction(schedules, timezone, rule.Holidays, func() {
 		routeDuration, err := mapsRoutingService.FetchCurrentTransitTimeBetween(origin, destination)
 		if err != nil {
 			slog.Error("Failed to fetch transit time", slog.Any("error", err), slog.Any("rule_id", rule.Id))

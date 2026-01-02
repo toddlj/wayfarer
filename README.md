@@ -50,6 +50,10 @@ Useful for commuters who can work from home occasionally to avoid a long commute
           - day: FRIDAY
             time: 09:00
         timezone: Europe/London
+        holidays:
+          - 2025-12-25
+          - 2025-12-26
+          - 2026-01-01
          ```
 5. Create an environments file
     ```shell
