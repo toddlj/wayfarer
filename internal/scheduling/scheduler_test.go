@@ -13,6 +13,7 @@ func Test_GetNextScheduledTime(t *testing.T) {
 		schedule   Schedule
 		timezone   *time.Location
 		allowToday bool
+		holidays   map[string]bool
 		expected   time.Time
 	}{
 		{
@@ -55,14 +56,48 @@ func Test_GetNextScheduledTime(t *testing.T) {
 			allowToday: true,
 			expected:   time.Date(2025, 2, 17, 9, 0, 0, 0, time.UTC), // Next Monday at 09:00 UTC
 		},
+		{
+			name:       "Skip holiday on scheduled day",
+			now:        time.Date(2025, 2, 10, 8, 0, 0, 0, time.UTC), // Monday
+			schedule:   Schedule{DayOfWeek: time.Monday, Hour: 9, Minute: 0},
+			timezone:   time.UTC,
+			allowToday: true,
+			holidays:   map[string]bool{"2025-02-10": true},          // Today is a holiday
+			expected:   time.Date(2025, 2, 17, 9, 0, 0, 0, time.UTC), // Should jump to next Monday
+		},
+		{
+			name:       "Skip consecutive holidays",
+			now:        time.Date(2025, 2, 10, 8, 0, 0, 0, time.UTC), // Monday
+			schedule:   Schedule{DayOfWeek: time.Monday, Hour: 9, Minute: 0},
+			timezone:   time.UTC,
+			allowToday: true,
+			holidays: map[string]bool{
+				"2025-02-10": true, // This Monday
+				"2025-02-17": true, // Next Monday
+			},
+			expected: time.Date(2025, 2, 24, 9, 0, 0, 0, time.UTC), // Should jump 2 weeks out
+		},
+		{
+			name:       "Holiday on different day does not affect schedule",
+			now:        time.Date(2025, 2, 10, 8, 0, 0, 0, time.UTC), // Monday
+			schedule:   Schedule{DayOfWeek: time.Monday, Hour: 9, Minute: 0},
+			timezone:   time.UTC,
+			allowToday: true,
+			holidays:   map[string]bool{"2025-02-11": true},          // Tuesday is holiday
+			expected:   time.Date(2025, 2, 10, 9, 0, 0, 0, time.UTC), // Should still run Monday
+		},
 	}
 
-	// Run test cases
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := getNextScheduledTime(tt.now, tt.schedule, tt.timezone, tt.allowToday)
+			// Initialize map if nil to prevent panics in the logic
+			h := tt.holidays
+			if h == nil {
+				h = make(map[string]bool)
+			}
 
-			// Verify the exact scheduled time
+			result := getNextScheduledTime(tt.now, tt.schedule, tt.timezone, tt.allowToday, h)
+
 			if !result.Equal(tt.expected) {
 				t.Errorf("Test %s failed:\nExpected: %v\nGot:      %v", tt.name, tt.expected, result)
 			}
@@ -74,7 +109,7 @@ func TestScheduleFunction_TaskExecutionAndRescheduling(t *testing.T) {
 	// Save original function so we can restore it later.
 	origNextFunc := getNextScheduledTimeFunction
 	// Override getNextScheduledTimeFunc to always schedule the task 10ms in the future.
-	getNextScheduledTimeFunction = func(now time.Time, schedule Schedule, timezone *time.Location, allowToday bool) time.Time {
+	getNextScheduledTimeFunction = func(now time.Time, schedule Schedule, timezone *time.Location, allowToday bool, holidays map[string]bool) time.Time {
 		return time.Now().Add(10 * time.Millisecond)
 	}
 	defer func() { getNextScheduledTimeFunction = origNextFunc }()
@@ -95,7 +130,7 @@ func TestScheduleFunction_TaskExecutionAndRescheduling(t *testing.T) {
 	loc := time.UTC
 
 	// Start scheduling the task.
-	if err := ScheduleFunction(schedules, loc, task); err != nil {
+	if err := ScheduleFunction(schedules, loc, []string{}, task); err != nil {
 		t.Fatalf("ScheduleFunction returned error: %v", err)
 	}
 

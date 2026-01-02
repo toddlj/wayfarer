@@ -27,6 +27,10 @@ rules:
       - day: MONDAY
         time: 08:00
     timezone: Europe/London
+    holidays:
+      - 2025-12-25
+      - 2025-12-26
+      - 2026-01-01
 `
 	file := writeToFile(t, validYAML)
 	defer removeFile(t, file)
@@ -65,12 +69,92 @@ rules:
 					},
 				},
 				Timezone: "Europe/London",
+				Holidays: []string{
+					"2025-12-25",
+					"2025-12-26",
+					"2026-01-01",
+				},
 			},
 		},
 	}
 
 	if !reflect.DeepEqual(expected, actual) {
 		t.Fatalf("Expected: %+v\nGot: %+v", expected, actual)
+	}
+}
+
+func TestLoadConfig_NoHolidays(t *testing.T) {
+	// Given
+	validYAML := `
+rules:
+  - id: 1
+    origin:
+      name: 10 Downing Street
+      longitude: -0.1276
+      latitude: 51.503
+    destination:
+      name: Palace of Westminster
+      longitude: -0.1246
+      latitude: 51.498
+    user:
+      telegram_user_id: 444455555
+    travel_time:
+      notification_threshold_minutes: 8
+    times:
+      - day: MONDAY
+        time: 08:00
+    timezone: Europe/London
+`
+	file := writeToFile(t, validYAML)
+	defer removeFile(t, file)
+
+	// When
+	actual, err := LoadConfig(file)
+	if err != nil {
+		t.Fatalf("Error loading config: %s", err)
+	}
+
+	// Then
+	if !(actual.Rules[0].Holidays == nil) {
+		t.Fatalf("Expected holidays to be nil: '%v'", actual.Rules[0].Holidays)
+	}
+}
+
+func TestLoadConfig_EmptyHolidays(t *testing.T) {
+	// Given
+	validYAML := `
+rules:
+  - id: 1
+    origin:
+      name: 10 Downing Street
+      longitude: -0.1276
+      latitude: 51.503
+    destination:
+      name: Palace of Westminster
+      longitude: -0.1246
+      latitude: 51.498
+    user:
+      telegram_user_id: 444455555
+    travel_time:
+      notification_threshold_minutes: 8
+    times:
+      - day: MONDAY
+        time: 08:00
+    timezone: Europe/London
+    holidays:
+`
+	file := writeToFile(t, validYAML)
+	defer removeFile(t, file)
+
+	// When
+	actual, err := LoadConfig(file)
+	if err != nil {
+		t.Fatalf("Error loading config: %s", err)
+	}
+
+	// Then
+	if !(actual.Rules[0].Holidays == nil) {
+		t.Fatalf("Expected holidays to be nil: '%v'", actual.Rules[0].Holidays)
 	}
 }
 

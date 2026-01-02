@@ -32,6 +32,7 @@ type Rule struct {
 	TravelTime  TravelTime     `yaml:"travel_time"`
 	Times       []TimeSchedule `yaml:"times"`
 	Timezone    string         `yaml:"timezone"`
+	Holidays    []string       `yaml:"holidays"`
 }
 
 // Config represents the full configuration
