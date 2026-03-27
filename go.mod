@@ -3,7 +3,7 @@ module wayfarer
 go 1.25.0
 
 require (
-	cloud.google.com/go/maps v1.29.0
+	cloud.google.com/go/maps v1.30.0
 	github.com/googleapis/gax-go/v2 v2.20.0
 	google.golang.org/api v0.273.0
 	google.golang.org/genproto v0.0.0-20260319201613-d00831a3d3e7
