@@ -5,7 +5,7 @@ go 1.25.8
 require (
 	cloud.google.com/go/maps v1.41.0
 	github.com/googleapis/gax-go/v2 v2.24.0
-	google.golang.org/api v0.295.0
+	google.golang.org/api v0.296.0
 	google.golang.org/genproto v0.0.0-20260715232425-e75dac1f907d
 	google.golang.org/grpc v1.83.2
 	google.golang.org/protobuf v1.36.12
