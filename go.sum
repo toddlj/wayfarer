@@ -4,8 +4,8 @@ cloud.google.com/go/auth/oauth2adapt v0.3.0 h1:FY8oSZpCYoUNv6QxVODuMjQz4IlSOVeiQ
 cloud.google.com/go/auth/oauth2adapt v0.3.0/go.mod h1:7+2uCm7++XFO+/lN06c2HXpDXb/NMNn2/UwyBPbTnkk=
 cloud.google.com/go/compute/metadata v0.10.0 h1:pyKMUQSwchgkIBBJGdILqQbs/BNJXqwSA7Ej6LAvvtY=
 cloud.google.com/go/compute/metadata v0.10.0/go.mod h1:rGFHRrIif570kSibjFTMbt6/4/tzgJWFGI/HVol4GIk=
-cloud.google.com/go/maps v1.44.1 h1:tM6zYHnTKKRU3SZNg/xXfSEugkNT2lSiuj8hneH+8sw=
-cloud.google.com/go/maps v1.44.1/go.mod h1:PRVI6OHVGwKn5+3hEVfjHS2Pulnq3/xjHPK1l4Nyk/k=
+cloud.google.com/go/maps v1.45.0 h1:LkMKkjC+lsVfk/d8bUBS7HlsA9M7fC5OuUuQiSdL0tM=
+cloud.google.com/go/maps v1.45.0/go.mod h1:Vfyr4G2aHpiaCwGxCzQAy/OLsBqud46WunjBwBKk9yg=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
 github.com/cespare/xxhash/v2 v2.3.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cncf/xds/go v0.0.0-20260202195803-dba9d589def2 h1:aBangftG7EVZoUb69Os8IaYg++6uMOdKK83QtkkvJik=
